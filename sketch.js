@@ -1,16 +1,13 @@
-var noiseScale = 0.02;
 var time = 0;
+var drawn = 0;
 
-var points1 = [];
-var points2 = [];
-var points3 = [];
-var points4 = [];
 //var capturer = new CCapture({format: 'png', framerate: 60})
 
 function setup() {
   createCanvas(506, 506);
   noSmooth();
   noStroke();
+  frameRate(60);
   seed1 = random(1000);
   seed2 = random(1000) + seed1;
   seed3 = random(1000) + seed2;
@@ -32,18 +29,35 @@ function draw() {
   background(255, 236, 201);
   translate(width / 2, height / 2);
 
-  for (let i = 0; i < points1.length; ++i) {
+  noiseSeed(seed1);
+  for (let i = 0; i < drawn; ++i) {
     fill(171, 148, 126);
-    let y = points1[i] * 100;
+    let noiseValue = noise(((i - 220) * 0.025) + (time * 0.9), -80);
+    let y = noiseValue * 100;
     rect(i - 220, y - 80, 1, 270 - y);
+  }
+
+  noiseSeed(seed2);
+  for (let i = 0; i < drawn; ++i) {
     fill(68, 43, 36);
-    y = points2[i] * 100;
+    noiseValue = noise(((i - 220) * 0.02) + time, -50);
+    y = noiseValue * 100;
     rect(i - 220, y - 50, 1, 270 - y);
+  }
+
+  noiseSeed(seed3);
+  for (let i = 0; i < drawn; ++i) {
     fill(40, 14, 11);
-    y = points3[i] * 150;
+    noiseValue = noise(((i - 220) * 0.015) + (time * 1.05), -20)
+    y = noiseValue * 150;
     rect(i - 220, y - 40, 1, 260 - y);
+  }
+
+  noiseSeed(seed4);
+  for (let i = 0; i < drawn; ++i) {
     fill(0);
-    y = points4[i] * 150;
+    noiseValue = noise(((i - 220) * 0.012) + (time * 1.1), -20);
+    y = noiseValue * 150;
     rect(i - 220, y - 10, 1, 260 - y);
   }
 
@@ -52,46 +66,9 @@ function draw() {
   rect(400, -400, -181, height * 2);
   rect(-220, 220, width, 200);
   
-  if (points1.length < 440) {
-    UpdatePoints();
-    time += deltaTime / 1000;
-    UpdatePoints();
-    time += deltaTime / 1000;
-    UpdatePoints();
-  } else
-    UpdatePoints();
+  if (drawn < 440)
+    drawn += 3;
 
   time += deltaTime / 1000;
   //capturer.capture(document.getElementById('defaultCanvas0'));
-}
-
-function initializePoints() {
-  for (let x = -220; x < 219; x++) {
-    noiseSeed(seed1);
-    points1[x + 220] = noise((x * 0.025), -80);
-    noiseSeed(seed2);
-    points2[x + 220] = noise((x * 0.02), -50);
-    noiseSeed(seed3);
-    points3[x + 220] = noise((x * 0.015), -20);
-    noiseSeed(seed4);
-    points4[x + 220] = noise((x * 0.012), -20);
-  }
-}
-
-function UpdatePoints() {
-  if (points1.length > 440) {
-    points1.shift();
-    points2.shift();
-    points3.shift();
-    points4.shift();
-  }
-
-  noiseSeed(seed1);
-  points1.push(noise((220 * 0.025) + (time * 0.9), -80));
-  noiseSeed(seed2);
-  points2.push(noise((220 * 0.02) + time, -50));
-  noiseSeed(seed3);
-  points3.push(noise((220 * 0.015) + (time * 1.05), -20));
-  noiseSeed(seed4);
-  points4.push(noise((220 * 0.012) + (time * 1.1), -20));
 }
