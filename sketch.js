@@ -5,7 +5,7 @@ var points1 = [];
 var points2 = [];
 var points3 = [];
 var points4 = [];
-var capturer = new CCapture({format: 'png', framerate: 60})
+//var capturer = new CCapture({format: 'png', framerate: 60})
 
 function setup() {
   createCanvas(506, 506);
@@ -18,6 +18,7 @@ function setup() {
 }
 
 function draw() {
+  /*
   if (frameCount === 1)
     capturer.start();
 
@@ -26,6 +27,7 @@ function draw() {
     capturer.stop();
     capturer.save();
   }
+  */
 
   background(255, 236, 201);
   translate(width / 2, height / 2);
@@ -60,7 +62,7 @@ function draw() {
     UpdatePoints();
 
   time += deltaTime / 1000;
-  capturer.capture(document.getElementById('defaultCanvas0'));
+  //capturer.capture(document.getElementById('defaultCanvas0'));
 }
 
 function initializePoints() {
